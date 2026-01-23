@@ -20,18 +20,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
-      - name: Build PDF with LaTeX
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: cv/cv.tex
-          latexmk_use_xelatex: false
-          latexmk_use_lualatex: true
-          latexmk_shell_escape: false
-          args: -output-directory=output -interaction=nonstopmode
-      
-      - name: Build PDF (second pass for references)
+      - name: Install TeX Live with LuaLaTeX
         run: |
-          cd cv && lualatex -output-directory=../output -interaction=nonstopmode cv.tex
+          sudo apt-get update
+          sudo apt-get install -y texlive-luatex texlive-latex-extra texlive-fonts-extra
+      
+      - name: Build PDF using Makefile
+        run: |
+          make build
       
       - name: Verify PDF exists
         run: |
