@@ -52,30 +52,6 @@ The repository includes a GitHub Actions workflow that automates building and re
 - `version`: Release version (e.g., v1.0.0) - defaults to `v1.0.0`
 - `tag`: Git tag name - defaults to `v1.0.0`
 
-**Steps:**
-
-1. **Checkout repository** - Checks out the code from the repository
-
-2. **Install TeX Live with LuaLaTeX** - Installs the required TeX Live packages:
-   - `texlive-luatex` - LuaLaTeX engine
-   - `texlive-latex-extra` - Additional LaTeX packages
-   - `texlive-fonts-extra` - Additional fonts
-
-3. **Build PDF using Makefile** - Runs `make build` to compile the CV
-
-4. **Verify PDF exists** - Confirms the PDF was generated successfully and displays its size
-
-5. **Get current date** - Captures the build timestamp for the release notes
-
-6. **Create Release** - Creates a GitHub release with:
-   - Tag name from the input
-   - Release name: "CV Release {version}"
-   - Release notes including build date and commit SHA
-   - The compiled PDF (`output/cv.pdf`) attached as a release asset
-
-**Permissions:**
-The workflow requires `contents: write` permission to create releases and upload assets.
-
 **How to use:**
 1. Go to the **Actions** tab in your GitHub repository
 2. Select **Build and Release CV** from the workflow list
