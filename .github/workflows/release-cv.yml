@@ -1,0 +1,63 @@
+name: Build and Release CV
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+      tag:
+        description: 'Git tag name'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Build PDF with LaTeX
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: cv/cv.tex
+          latexmk_use_xelatex: false
+          latexmk_use_lualatex: true
+          latexmk_shell_escape: false
+          args: -output-directory=output -interaction=nonstopmode
+      
+      - name: Build PDF (second pass for references)
+        run: |
+          cd cv && lualatex -output-directory=../output -interaction=nonstopmode cv.tex
+      
+      - name: Verify PDF exists
+        run: |
+          if [ ! -f output/cv.pdf ]; then
+            echo "Error: PDF was not generated"
+            exit 1
+          fi
+          echo "PDF size: $(ls -lh output/cv.pdf | awk '{print $5}')"
+          echo "PDF generated successfully!"
+      
+      - name: Get current date
+        id: date
+        run: echo "date=$(date +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          name: CV Release ${{ github.event.inputs.version }}
+          body: |
+            CV Release ${{ github.event.inputs.version }}
+            
+            Built on ${{ steps.date.outputs.date }}
+            Commit: ${{ github.sha }}
+          draft: false
+          prerelease: false
+          files: output/cv.pdf

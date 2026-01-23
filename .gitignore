@@ -1,0 +1,14 @@
+# Dev Environment
+.vscode/
+.idea/
+.DS_Store
+
+# Output
+output/
+*.aux
+*.log
+*.out
+*.toc
+*.fdb_latexmk
+*.fls
+*.synctex.gz

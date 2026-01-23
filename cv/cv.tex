@@ -1,0 +1,49 @@
+% !TEX TS-program = lualatex
+% Awesome Source CV LaTeX Template
+%
+% This template has been downloaded from:
+% https://github.com/darwiin/awesome-neue-latex-cv
+%
+% Author:
+% Christophe Roger (Darwiin)
+%
+% Template license:
+% CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
+
+\documentclass[localFont,alternative]{yaac-another-awesome-cv}
+\usepackage{datetime2}
+\DTMlangsetup[en-US]{ord=raise}
+\newcommand{\monthyear}{%
+  \DTMenglishmonthname{\number\month} \the\year%
+}
+\name{Craig}{Hutcheon}
+\tagline{Software Engineer}
+\socialinfo{
+	\linkedin{craig-hutcheon-234420163}
+	\smartphone{07747 447787}
+	\email{craighutcheon333@outlook.com}\\
+	\address{2R 114 Arklay Street, Dundee, DD37LL}
+}
+
+\begin{document}
+
+	\selectlanguage{english}
+
+	\makecvheader
+
+	\makecvfooter
+		{\textsc{\monthyear}}
+		{\textsc{Craig Hutcheon}}
+		{\thepage}
+
+	\input{section_headline}
+	\input{section_competences}				% Section skills
+	\input{section_experience_short}		% Section experience
+	%\input{section_languages}				% Section languages
+	\input{section_education}				% Section education
+	%\input{section_interets}				% Section interests
+	%\input{section_projects}				% Section projects
+	%\input{section_references} 			% Section references
+
+
+\end{document}
