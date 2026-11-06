@@ -46,9 +46,12 @@ The repository includes a GitHub Actions workflow that automates building and re
 
 **Location:** `.github/workflows/release-cv.yml`
 
-**Trigger:** Manual workflow dispatch (can be triggered from the GitHub Actions tab)
+The workflow builds the CV from the default branch at 09:17 London time on the first day of each month. It publishes a release tagged `cv-YYYY-MM` with `cv.pdf` attached. A rerun uses the original run's month.
 
-**Inputs:**
+GitHub disables scheduled workflows after 60 days without repository activity. If this happens, re-enable the workflow from the Actions tab.
+
+**Manual inputs**
+
 - `version`: Release version (e.g., v1.0.0) - defaults to `v1.0.0`
 - `tag`: Git tag name - defaults to `v1.0.0`
 

@@ -1,6 +1,9 @@
 name: Build and Release CV
 
 on:
+  schedule:
+    - cron: '17 9 1 * *'
+      timezone: Europe/London
   workflow_dispatch:
     inputs:
       version:
@@ -12,15 +15,34 @@ on:
         required: true
         default: 'v1.0.0'
 
+concurrency:
+  group: cv-release-${{ inputs.tag || 'monthly' }}
+  cancel-in-progress: false
+
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
     permissions:
+      actions: read
       contents: write
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set monthly release version
+        if: github.event_name == 'schedule'
+        id: monthly
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TZ: Europe/London
+        run: |
+          created_at=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" --jq '.created_at')
+          version=$(date --date="$created_at" +%Y-%m)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=cv-$version" >> "$GITHUB_OUTPUT"
+          echo "SOURCE_DATE_EPOCH=$(date --date="$created_at" +%s)" >> "$GITHUB_ENV"
+          echo "FORCE_SOURCE_DATE=1" >> "$GITHUB_ENV"
       
       - name: Install TeX Live with LuaLaTeX
         run: |
@@ -33,7 +55,7 @@ jobs:
       
       - name: Verify PDF exists
         run: |
-          if [ ! -f output/cv.pdf ]; then
+          if [ ! -s output/cv.pdf ]; then
             echo "Error: PDF was not generated"
             exit 1
           fi
@@ -42,20 +64,20 @@ jobs:
       
       - name: Get current date
         id: date
-        run: echo "date=$(date +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
+        run: echo "date=$(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> "$GITHUB_OUTPUT"
       
       - name: Create Release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v3
         with:
-          tag_name: ${{ github.event.inputs.tag }}
-          name: CV Release ${{ github.event.inputs.version }}
+          tag_name: ${{ inputs.tag || steps.monthly.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: CV Release ${{ inputs.version || steps.monthly.outputs.version }}
           body: |
-            CV Release ${{ github.event.inputs.version }}
+            CV Release ${{ inputs.version || steps.monthly.outputs.version }}
             
             Built on ${{ steps.date.outputs.date }}
             Commit: ${{ github.sha }}
           draft: false
           prerelease: false
+          fail_on_unmatched_files: true
           files: output/cv.pdf
