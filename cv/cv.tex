@@ -17,7 +17,7 @@
   \DTMenglishmonthname{\number\month} \the\year%
 }
 \name{Craig}{Hutcheon}
-\tagline{Software Engineer II}
+\tagline{Senior Software Engineer}
 \socialinfo{
 	\linkedin{craig-hutcheon-234420163}
 	\github{craigh33}
@@ -40,11 +40,15 @@
 	\vspace{-1em}
 	\input{section_headline}
 	\input{section_competences}				% Section skills
+	\begingroup
+	\setlength{\LTpost}{1pt}
 	\input{section_experience_short}		% Section experience
+	\setlength{\LTpre}{5pt}
+	\input{section_projects}				% Section open source
+	\endgroup
 	%\input{section_languages}				% Section languages
 	\input{section_education}				% Section education
 	%\input{section_interets}				% Section interests
-	%\input{section_projects}				% Section projects
 	%\input{section_references} 			% Section references
 
 

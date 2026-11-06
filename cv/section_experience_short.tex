@@ -13,9 +13,25 @@
 %\renewcommand{\labelitemi}{$\bullet$}
 \begin{experiences}
   \experience
-    {Present}   {Software Engineer}{N-able}{United Kingdom}
+    {Present}   {Senior Software Engineer}{triSaaS}{United Kingdom}
+    {Jun 2026} {
+                      Built partner integrations, procurement features and engineering tooling for hospitality procurement software.
+                      \begin{itemize}
+                        \item \textbf{Partner APIs} --- Designed and built a Go/OpenAPI partner API with scoped API keys, rate limiting and developer documentation. Implemented a facilities management work-request integration and asynchronous ingestion of financial reporting metrics.
+                        \item \textbf{Authorisation} --- Implemented Cedar policy-based supplier permissions for selected GraphQL reads and writes. Applied access rules before pagination so supplier lists reflected each user's permissions.
+                        \item \textbf{Architecture practice} --- Introduced Architectural Design Documents (ADDs) and Architectural Decision Records (ADRs), including a shared documentation structure, an ADR template and an authoring script.
+                        \item \textbf{Inventory data modelling} --- Designed a Kimball-style dimensional model for inventory reporting. Defined a stock movement fact with product, location, date, reason and user dimensions, using wastage as the first use case.
+                        \item \textbf{Full-stack delivery} --- Built self-service API key management and bulk CSV product imports across the Svelte and TypeScript UI, GraphQL API and Go backend.
+                        \item \textbf{Release engineering} --- Introduced Releaser Pleaser and built reusable GitLab CI/CD pipelines for Go services, libraries and AWS Lambda. Automated promotion of tested artifacts without rebuilding them and generated release notes for each deployment environment.
+                        \item \textbf{Observability} --- Migrated backend tracing and metrics to OpenTelemetry, linked logs to traces and added Datadog monitors for API availability, server errors and panics.
+                      \end{itemize}
+                    }
+                    {Go, OpenAPI, GraphQL, Cedar, PostgreSQL, Svelte, TypeScript, OpenTelemetry, Datadog, GitLab CI/CD, AWS Lambda}
+  \emptySeparator
+  \experience
+    {May 2026}  {Software Engineer}{N-able}{United Kingdom}
     {Oct 2022} {
-                      Promoted Software Engineer I $\rightarrow$ II; work spans N-able Cloud and the Agentic AI product line (N-zo), from backend and cloud architecture to customer UI.
+                      Promoted from Software Engineer I to II. Work spanned N-able Cloud and the Agentic AI product line (N-zo), from backend and cloud architecture to customer UI.
                       \begin{itemize}
                         \item \textbf{Agentic AI (N-zo)} --- Core engineer on Go-based agents (A2A-compliant), MCP servers, and multi-agent architecture; shaped prompt and tool design; AWS re:Invent for hands-on Agentic AI and industry direction.
                         \item \textbf{Cloud microservices} --- Helped deliver a DocumentDB + SAGA microservice stack on KNative/Kubernetes to replace legacy Azure user-resource sync, tightening lifecycle management for cloud resources at scale.
